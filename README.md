@@ -63,8 +63,9 @@ server.port=8080
 # Eureka
 eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
 
-# Actuator
-management.endpoints.web.exposure.include=health,gateway
+# Actuator endpoints
+management.endpoints.web.exposure.include=health,gateway,info
+management.endpoint.health.show-details=always
 ```
 
 ### Configuración de Rutas (GatewayConfig.java)
@@ -188,6 +189,28 @@ GET /actuator/metrics
 
 # Información general
 GET /actuator/info
+```
+
+### Respuesta de Health Check
+```json
+{
+  "status": "UP",
+  "components": {
+    "eureka": {
+      "status": "UP",
+      "details": {
+        "applications": {
+          "BOOK-SERVICE": 1,
+          "USER-SERVICE": 1,
+          "LOAN-SERVICE": 1
+        }
+      }
+    },
+    "gateway": {
+      "status": "UP"
+    }
+  }
+}
 ```
 
 ### Métricas Disponibles
@@ -344,3 +367,28 @@ logging.level.reactor.netty=DEBUG
 - [ ] **Métricas Avanzadas** - Integración con Prometheus
 - [ ] **Caching** - Redis integration para respuestas
 - [ ] **SSL Termination** - HTTPS en el gateway
+
+## 🔧 Configuración Completa
+
+### application.properties
+```properties
+# Configuración del gateway
+spring.application.name=gateway-service
+server.port=8080
+
+# Eureka Service Discovery
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
+
+# Actuator endpoints
+management.endpoints.web.exposure.include=health,gateway,info
+management.endpoint.health.show-details=always
+```
+
+---
+
+## 📞 Soporte
+
+Para reportar bugs o solicitar nuevas características, crear un issue en el repositorio del proyecto.
+
+**Puerto del servicio**: 8080  
+**Nombre en Eureka**: GATEWAY-SERVICE
